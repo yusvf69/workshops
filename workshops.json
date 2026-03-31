@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Pottery Basics",
+    "img": "./assets/images/collection-1.jpg",
+    "date": "2025-10-15",
+    "seats": 10,
+    "price": 350,
+    "desc": "Learn the fundamentals of pottery making and create simple pieces.",
+    "title_i18n": "pottery_title",
+    "date_i18n": "pottery_date",
+    "price_i18n": "pottery_price"
+  },
+  {
+    "title": "Mosaic Techniques",
+    "img": "./assets/images/collection-2.jpg",
+    "date": "2025-10-22",
+    "seats": 8,
+    "price": 300,
+    "desc": "Hands-on workshop to learn the basics of mosaic art using glass and stones.",
+    "title_i18n": "mosaic_title",
+    "date_i18n": "mosaic_date",
+    "price_i18n": "mosaic_price"
+  }
+]

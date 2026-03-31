@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshops</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+       /* Direction */
+    html[dir="ltr"] body { text-align: left; }
+    html[dir="rtl"] body { text-align: right; }
+
+    .text-center { text-align: center; }
+    .hero-title, .section-title { line-height: 1.4; margin-bottom: 10px; }
+    .hero-text, .section-text { line-height: 1.6; margin-bottom: 20px; }
+
+    /* Workshops */
+    .workshops-list { display:grid; gap:40px; grid-template-columns:1fr; padding: 0 10px; }
+    .workshop-card {
+      background:var(--white);
+      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+      overflow:hidden;
+      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+      border-radius:20px;
+      overflow:hidden;
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .workshop-card:hover { 
+      transform:translateY(-6px); 
+      box-shadow:0 8px 24px rgba(95,56,36,0.35); 
+    }
+    .workshop-card img { width:100%; height:260px; object-fit:cover; }
+    .workshop-card .card-content { padding:22px; display:grid; gap:10px; }
+
+    /* عنوان الورشة */
+    .workshop-card .card-title { 
+      font-size:1.6rem;
+      font-weight:600;
+      color:var(--bistre);
+      margin:0;
+    }
+
+    /* تفاصيل الورشة */
+    .workshop-card .card-text { 
+      color:var(--granite-gray);
+      font-size:1.2rem;
+      line-height:1.4;
+    }
+
+    .workshop-actions { display:flex; gap:14px; margin-top:12px; }
+
+    /* Buttons */
+    .btn { border-radius:12px; padding:12px 20px; font-size:1.4rem; transition:0.3s; cursor:pointer; }
+    .btn:hover { transform:scale(1.05); }
+    .btn { background:hsla(35, 70%, 38%, 0.6);color:var(--bistre); border:none; }
+    .btn-outline {
+      border-radius: 12px;
+      padding: 12px 20px;
+      background:transparent;
+      border:1px solid hsla(30, 30%, 58%, 1);
+      color:hsla(31, 17%, 36%, 1);
+      display:flex; align-items:center; gap:6px;
+    }
+    .btn-outline:hover { background:hsla(35, 70%, 38%, 0.6); color:var(--bistre); }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 10000;
+    }
+    .modal[aria-hidden="false"] { display:grid; }
+    .modal-dialog {
+      background: hsl(35, 55%, 35%);  /* Beige with transparency */
+      width: fit-content;
+      max-width: 400px;
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      box-shadow: var(--shadow-2);
+      margin: 10% auto; /* Center the modal and add some top/bottom margin */
+    }
+
+    @media (max-width: 480px) {
+      .modal-dialog {
+        width: 95%; /* Make it even wider on smaller screens */
+        padding: 12px;
+      }
+    }
+    .modal-close { position:absolute; top:14px; left:14px; font-size:2rem; background:none; border:none; cursor:pointer; color:var(--granite-gray); }
+    .modal-title { font-size:1.8rem; margin-bottom:12px; font-weight:600; color:var(--bistre); }
+    .modal img { border-radius:12px; margin-bottom:16px; }
+    .modal p { font-size:1.4rem; line-height:1.6; color:var(--granite-gray); }
+
+    .form-row { margin-bottom:14px; display:flex; flex-direction:column; gap:6px; }
+    .form-row input, .form-row textarea { padding:10px 12px; border-radius:10px; border:1px solid hsl(0,0%,85%); font-size:1.4rem; }
+    .form-actions { margin-top:12px; display:flex; justify-content:flex-end; }
+    #bookingMessage { margin-top:12px; font-weight:600; }
+
+    .lang-btn {
+      background: var(--bistre);
+      color: var(--white);
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.4rem;
+      margin-left: 10px;
+    }
+    .lang-btn:hover { background: hsl(30, 25%, 20%); }
+    /* تفاصيل المودال */
+#detailsModal img {
+  width: 70%;
+  max-height: 300px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 16px;
+  border-radius: 12px;
+}
+
+/* موبايل */
+
+@media (max-width: 480px) {
+  #detailsModal img {
+    width: 100%;
+    max-height: 220px;
+  }
+    .navbar {
+    display: none; /* أخفي navbar العادي */
+  }
+  .btn_one {
+    display: block; /* أظهر الهامبرجر */
+  }
+  .sidebar_menu {
+    display: block; /* أظهر السايد بار */
+  }
+}
+
+
+    /* Responsive */
+    @media (min-width:768px){ 
+      .workshops-list{grid-template-columns:1fr 1fr;} 
+    }
+    @media (min-width:1200px){ 
+      .workshops-list{grid-template-columns:repeat(3,1fr);} 
+    }
+    @media (max-width:768px) {
+      .workshop-card img { height: 200px; }
+      .workshop-card .card-content { padding: 16px; }
+      .workshop-card .card-title { font-size: 1.4rem; }
+      .workshop-card .card-text { font-size: 1.1rem; }
+      .btn, .btn-outline { font-size: 1.2rem; padding: 10px 14px; }
+    }
+    @media (max-width: 480px) {
+      .workshops-list { gap: 10px; margin-top: 20px;}
+      .workshop-card {
+        width: 60%; /* Make cards take almost full width on small screens */
+  margin-right: auto;
+  margin-left: auto;
+      }
+      .workshop-card img { height: 120px; }
+      .workshop-card .card-content { padding: 10px; }
+      .workshop-card .card-title { font-size: 1rem; }
+      .workshop-card .card-text { font-size: 0.9rem; }
+      .workshop-actions { flex-direction: column; gap: 6px; }
+    }
+    
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2d1a01;
+      padding: 10px 20px;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    /* Links inside navbar */
+    .navbar-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .navbar-links a:hover {
+      color: #ff9800;
+    }
+
+    /* زرار تغيير اللغة (نفس شكل السايدبار) */
+    #langSwitch,
+    #gghg-sidebar-lang {
+      padding: 10px 20px;
+      background: white;
+      color: #2d1a01;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border: none;
+    }
+    #langSwitch:hover,
+    #gghg-sidebar-lang:hover {
+      background: #f4f4f4;
+    }
+
+    /* زرار الهامبرجر */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger div {
+      width: 28px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      right: 0;
+      background: rgba(45, 26, 1, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: -2px 0 15px rgba(0,0,0,0.5);
+      overflow-x: hidden;
+      transition: 0.4s ease-in-out;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      opacity: 0;
+    }
+    .sidebar.show {
+      width: 280px;
+      opacity: 1;
+    }
+    .sidebar a {
+      padding: 14px 25px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: block;
+      transition: 0.3s;
+    }
+    .sidebar a:hover {
+      background: rgba(255,255,255,0.1);
+      padding-left: 35px;
+    }
+    .closebtn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+      color: white;
+    }
+    .sidebar-links {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-top: 80px;
+    }
+    .sidebar-bottom {
+      text-align: center;
+      padding: 20px;
+    }
+    .sidebar-bottom hr {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      margin: 15px 0;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    .social-icons a {
+      color: white;
+      font-size: 22px;
+      transition: 0.3s;
+    }
+    .social-icons a:hover {
+      transform: scale(1.2);
+      color: #ff9800;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar-links,
+      #langSwitch {
+        display: none; /* نخفيهم على الموبايل */
+      }
+      .hamburger {
+        display: flex; /* نعرض الهامبرجر */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Workshops</h1>
+    <div class="navbar-links">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Workshops</a>
+      <a href="#">Contact</a>
+    </div>
+    <button id="langSwitch">AR</button>
+    <div class="hamburger" onclick="openSidebar()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div id="mySidebar" class="sidebar">
+    <span class="closebtn" onclick="closeSidebar()">&times;</span>
+    <div class="sidebar-links">
+      <a href="index.html">Home</a>
+      <a href="index.html">About</a>
+      <a href=" http://localhost:3005">Contact</a>
+    </div>
+    <div class="sidebar-bottom">
+      <button id="gghg-sidebar-lang">AR</button>
+      <hr>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+   <!-- HERO -->
+
+    <!-- WORKSHOPS -->
+    <section class="section workshops" aria-labelledby="workshops-label">
+      <div class="container">
+        <h2 class="h2 section-title text-center" id="workshops-label" data-i18n="workshops_title">Upcoming Workshops</h2>
+        <p class="section-text text-center" data-i18n="workshops_subtitle">Join one of our creative workshops</p>
+
+        <ul class="workshops-list">
+          <li>
+            <div class="workshop-card">
+              <img src="./assets/images/collection-1.jpg" alt="Pottery Workshop">
+              <div class="card-content">
+                <h3 class="card-title" data-i18n="pottery_title">Pottery Basics</h3>
+                <p class="card-text" data-i18n="pottery_date">📅 Oct 15, 2025 · 👥 10 seats</p>
+                <p class="card-text" data-i18n="pottery_price">💰 350 EGP</p>
+                <div class="workshop-actions">
+                  <button class="btn-outline details-btn" 
+                    data-title="Pottery Basics" 
+                    data-img="./assets/images/collection-1.jpg"
+                    data-desc="Learn the fundamentals of pottery making and create simple pieces."
+                    data-i18n="btn_details">🔍 Details</button>
+                  <button class="btn book-btn" 
+                    data-title="Pottery Basics" 
+                    data-date="2025-10-15" 
+                    data-price="350"
+                    data-i18n="btn_book">Book Now</button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="workshop-card">
+              <img src="./assets/images/collection-2.jpg" alt="Mosaic Workshop">
+              <div class="card-content">
+                <h3 class="card-title" data-i18n="mosaic_title">Mosaic Techniques</h3>
+                <p class="card-text" data-i18n="mosaic_date">📅 Oct 22, 2025 · 👥 8 seats</p>
+                <p class="card-text" data-i18n="mosaic_price">💰 300 EGP</p>
+                <div class="workshop-actions">
+                  <button class="btn-outline details-btn" 
+                    data-title="Mosaic Techniques" 
+                    data-img="./assets/images/collection-2.jpg"
+                    data-desc="Hands-on workshop to learn the basics of mosaic art using glass and stones."
+                    data-i18n="btn_details">🔍 Details</button>
+                  <button class="btn book-btn" 
+                    data-title="Mosaic Techniques" 
+                    data-date="2025-10-22" 
+                    data-price="300"
+                    data-i18n="btn_book">Book Now</button>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOOKING MODAL -->
+  <div id="bookingModal" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <button class="modal-close" aria-label="Close">✕</button>
+      <h3 class="modal-title" data-i18n="booking_title">Book Workshop</h3>
+      <p id="modalWorkshopInfo" class="section-text"></p>
+      <form id="bookingForm" class="form">
+        <input type="hidden" id="workshopTitle">
+        <div class="form-row">
+          <label data-i18n="form_name">Name *</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="form-row">
+          <label data-i18n="form_email">Email *</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-row">
+          <label data-i18n="form_phone">Phone *</label>
+          <input type="tel" id="phone" required>
+        </div>
+        <div class="form-row">
+          <label data-i18n="form_seats">Seats *</label>
+          <input type="number" id="quantity" min="1" value="1" required>
+        </div>
+        <div class="form-row">
+          <label data-i18n="form_notes">Notes</label>
+          <textarea id="notes" rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn" data-i18n="form_confirm">Confirm Booking</button>
+        </div>
+        <p id="bookingMessage" class="section-text" style="display:none;"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- DETAILS MODAL -->
+  <div id="detailsModal" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <button class="modal-close" aria-label="Close">✕</button>
+      <img id="detailsImg" src="" alt="">
+      <h3 id="detailsTitle" class="modal-title"></h3>
+      <p id="detailsDesc"></p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: hsla(35, 100%, 9%, 1); color: white; text-align: center; padding: 10px; z-index: 100; margin-top: 20px;">
+    <div class="container text-center">
+      <p class="copyright">© 2025 Almarsam. All rights reserved.</p>
+    </div>
+  </footer>
+  <div style="height: 60px;"></div>
+
+
+
+ <script>
+  // ==================== Sidebar & Language ====================
+function openSidebar() { document.getElementById("mySidebar").classList.add("show"); }
+function closeSidebar() { document.getElementById("mySidebar").classList.remove("show"); }
+
+const translations = {
+  en: {
+    nav_home:"Home", nav_workshops:"Workshops", nav_contact:"Contact",
+    workshops_title:"Upcoming Workshops", workshops_subtitle:"Join one of our creative workshops",
+    btn_details:"Details", btn_book:"Book Now",
+    booking_title:"Book Workshop",
+    form_name:"Name *", form_email:"Email *", form_phone:"Phone *", form_seats:"Seats *", form_notes:"Notes", form_confirm:"Confirm Booking"
+  },
+  ar: {
+    nav_home:"الرئيسية", nav_workshops:"ورش العمل", nav_contact:"تواصل معنا",
+    workshops_title:"الورش القادمة", workshops_subtitle:"انضم لإحدى ورشنا الإبداعية",
+    btn_details:"تفاصيل", btn_book:"احجز الآن",
+    booking_title:"حجز ورشة",
+    form_name:"الاسم *", form_email:"البريد الإلكتروني *", form_phone:"رقم الهاتف *", form_seats:"عدد المقاعد *", form_notes:"ملاحظات", form_confirm:"تأكيد الحجز"
+  }
+};
+
+let currentLang = "ar";
+const langBtn = document.getElementById("langSwitch");
+
+function setLanguage(lang){
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang==="ar"?"rtl":"ltr";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key = el.getAttribute("data-i18n");
+    if(translations[lang][key]) el.textContent = translations[lang][key];
+  });
+  currentLang = lang;
+  langBtn.textContent = lang==="en"?"AR":"EN";
+}
+
+langBtn.addEventListener("click",()=>setLanguage(currentLang==="en"?"ar":"en"));
+document.getElementById("gghg-sidebar-lang").addEventListener("click",()=>setLanguage(currentLang==="en"?"ar":"en"));
+setLanguage("ar");
+
+// ==================== Modals ====================
+const bookingModal = document.getElementById('bookingModal');
+const bookingInfo = document.getElementById('modalWorkshopInfo');
+const workshopTitleInput = document.getElementById('workshopTitle');
+const form = document.getElementById('bookingForm');
+const bookingMessage = document.getElementById('bookingMessage');
+const bookingClose = bookingModal.querySelector('.modal-close');
+
+const detailsModal = document.getElementById('detailsModal');
+const detailsTitle = document.getElementById('detailsTitle');
+const detailsImg = document.getElementById('detailsImg');
+const detailsDesc = document.getElementById('detailsDesc');
+const detailsClose = detailsModal.querySelector('.modal-close');
+
+bookingClose.addEventListener('click',()=>bookingModal.setAttribute('aria-hidden','true'));
+detailsClose.addEventListener('click',()=>detailsModal.setAttribute('aria-hidden','true'));
+
+[bookingModal, detailsModal].forEach(m=>{
+  m.addEventListener('click', e=>{ if(e.target===m) m.setAttribute('aria-hidden','true'); });
+});
+
+// ==================== Fetch & Generate Workshops ====================
+async function fetchWorkshops() {
+  try {
+    const response = await fetch('/api/workshops');
+    const workshops = await response.json();
+
+    const workshopsList = document.querySelector('.workshops-list');
+    workshopsList.innerHTML = ''; // مسح القديم
+
+    workshops.forEach(workshop => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <div class="workshop-card">
+          <img src="${workshop.img}" alt="${workshop.title}">
+          <div class="card-content">
+            <h3 class="card-title" data-i18n="${workshop.title_i18n}">${workshop.title}</h3>
+            <p class="card-text">${workshop.date} · 👥 ${workshop.seats} seats</p>
+            <p class="card-text">💰 ${workshop.price} EGP</p>
+            <div class="workshop-actions">
+              <button class="btn-outline details-btn"
+                data-title="${workshop.title}"
+                data-img="${workshop.img}"
+                data-desc="${workshop.desc}"
+                data-i18n="btn_details">🔍 Details</button>
+              <button class="btn book-btn"
+                data-title="${workshop.title}"
+                data-date="${workshop.date}"
+                data-price="${workshop.price}"
+                data-i18n="btn_book">Book Now</button>
+            </div>
+          </div>
+        </div>`;
+      workshopsList.appendChild(li);
+    });
+
+    attachButtons(); // بعد ما نضيف الورش، نربط الأحداث
+
+  } catch (err) {
+    console.error("Failed to fetch workshops:", err);
+  }
+}
+
+// ==================== Buttons Events ====================
+function attachButtons() {
+  document.querySelectorAll('.book-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      bookingModal.setAttribute('aria-hidden','false');
+      bookingInfo.innerText = `${btn.dataset.title} — ${btn.dataset.date} — ${btn.dataset.price} EGP`;
+      workshopTitleInput.value = btn.dataset.title;
+      form.reset();
+      bookingMessage.style.display = 'none';
+    });
+  });
+
+  document.querySelectorAll('.details-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      detailsModal.setAttribute('aria-hidden','false');
+      detailsTitle.innerText = btn.dataset.title;
+      detailsImg.src = btn.dataset.img;
+      detailsDesc.innerText = btn.dataset.desc;
+    });
+  });
+}
+
+// ==================== Booking Form ====================
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const qty = +document.getElementById('quantity').value;
+  const workshop = workshopTitleInput.value;
+  const notes = document.getElementById('notes').value;
+
+  if (!name || !email || !phone || qty < 1) {
+    bookingMessage.style.display = 'block';
+    bookingMessage.style.color = 'crimson';
+    bookingMessage.innerText = currentLang==="en"
+      ? "Please fill in all fields correctly."
+      : "من فضلك املأ جميع الحقول بشكل صحيح.";
+    return;
+  }
+
+  // ---------------- تعطيل الزرار وإظهار جاري المعالجة ----------------
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  bookingMessage.style.display = 'block';
+  bookingMessage.style.color = 'orange';
+  bookingMessage.innerText = currentLang==="en" ? "Processing..." : "جاري المعالجة...";
+
+  try {
+    const res = await fetch('/api/book', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ name, email, phone, seats: qty, workshop, notes })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      bookingMessage.style.color = 'green';
+      bookingMessage.innerText = currentLang==="en" ? "Booking confirmed!" : "تم الحجز بنجاح!";
+      setTimeout(()=>bookingModal.setAttribute('aria-hidden','true'),1200);
+    } else throw new Error();
+
+  } catch(err){
+    bookingMessage.style.color = 'crimson';
+    bookingMessage.innerText = currentLang==="en" ? "Something went wrong." : "حصل خطأ حاول تاني.";
+  } finally {
+    submitBtn.disabled = false;
+  }
+});
+
+// ==================== Initialize ====================
+fetchWorkshops();
+</script>
+
+</body>
+</html>
