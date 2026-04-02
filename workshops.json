@@ -15,10 +15,59 @@
     "img": "./assets/images/collection-2.jpg",
     "date": "2025-10-22",
     "seats": 8,
-    "price": 300,
+    "price_min": 300,
+    "price_max": 450,
     "desc": "Hands-on workshop to learn the basics of mosaic art using glass and stones.",
     "title_i18n": "mosaic_title",
     "date_i18n": "mosaic_date",
     "price_i18n": "mosaic_price"
+  },
+  {
+    "title": "Mektup",
+    "img": "./assets/images/collection-1.jpg",
+    "date": "2025-11-05",
+    "seats": 12,
+    "price_min": 175,
+    "price_max": 300,
+    "desc": "Create beautiful decorative letters and calligraphy pieces.",
+    "title_i18n": "mektup_title",
+    "date_i18n": "mektup_date",
+    "price_i18n": "mektup_price"
+  },
+  {
+    "title": "Pot Painting",
+    "img": "./assets/images/collection-1.jpg",
+    "date": "2025-11-10",
+    "seats": 10,
+    "price_min": 150,
+    "price_max": 250,
+    "desc": "Learn to paint beautiful designs on pottery items.",
+    "title_i18n": "pot_painting_title",
+    "date_i18n": "pot_painting_date",
+    "price_i18n": "pot_painting_price"
+  },
+  {
+    "title": "Mirror Painting",
+    "img": "./assets/images/collection-1.jpg",
+    "date": "2025-11-15",
+    "seats": 10,
+    "price_min": 125,
+    "price_max": 300,
+    "desc": "Decorate mirrors with artistic designs and colors.",
+    "title_i18n": "mirror_painting_title",
+    "date_i18n": "mirror_painting_date",
+    "price_i18n": "mirror_painting_price"
+  },
+  {
+    "title": "Pottery Session",
+    "img": "./assets/images/collection-1.jpg",
+    "date": "2025-11-20",
+    "seats": 8,
+    "price_min": 200,
+    "price_max": 300,
+    "desc": "Enjoy a relaxing pottery session and shape your own creations.",
+    "title_i18n": "pottery_session_title",
+    "date_i18n": "pottery_session_date",
+    "price_i18n": "pottery_session_price"
   }
 ]
