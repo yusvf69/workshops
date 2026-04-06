@@ -326,6 +326,20 @@
         display: flex; /* نعرض الهامبرجر */
       }
     }
+    
+    /* Copyright */
+    .copyright {
+      font-family: 'Courier New', Courier, monospace;
+      color: white;
+      font-size: 14px;
+    }
+    .copyright a {
+      color: white;
+      text-decoration: none;
+    }
+    .copyright a:hover {
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
@@ -507,7 +521,7 @@
   <!-- FOOTER -->
   <footer class="footer" style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: hsla(35, 100%, 9%, 1); color: white; text-align: center; padding: 10px; z-index: 100; margin-top: 20px;">
     <div class="container text-center">
-      <p class="copyright">© 2025 Almarsam. All rights reserved.</p>
+      <p class="copyright">© 2025 Almarsam. All rights reserved. <span id="developedBy">طور بواسطة</span> <a href="https://onz-onz-website.vercel.app" class="copyright">ONZ</a></p>
     </div>
   </footer>
   <div style="height: 60px;"></div>
@@ -531,7 +545,8 @@ const translations = {
     mirror_painting_title:"Mirror Painting", pottery_session_title:"Pottery Session",
     price_from:"Start from",
     seats:"seats",
-    price_range:"Start from"
+    price_range:"Start from",
+    developedBy:"Developed by"
   },
   ar: {
     nav_home:"الرئيسية", nav_workshops:"ورش العمل", nav_contact:"تواصل معنا",
@@ -544,11 +559,14 @@ const translations = {
     mirror_painting_title:"طلاء المرايا", pottery_session_title:"جلسة فخار",
     price_from:"يبدأ من",
     seats:"مقاعد",
+    price_range:"يبدأ من",
+    developedBy:"طور بواسطة",
+    seats:"مقاعد",
     price_range:"يبدأ من"
   }
 };
 
-let currentLang = "ar";
+let currentLang = "en";
 const langBtn = document.getElementById("langSwitch");
 
 function setLanguage(lang){
@@ -558,13 +576,15 @@ function setLanguage(lang){
     const key = el.getAttribute("data-i18n");
     if(translations[lang][key]) el.textContent = translations[lang][key];
   });
+  const developedByEl = document.getElementById("developedBy");
+  if(developedByEl) developedByEl.textContent = translations[lang].developedBy;
   currentLang = lang;
   langBtn.textContent = lang==="en"?"AR":"EN";
 }
 
 langBtn.addEventListener("click",()=>setLanguage(currentLang==="en"?"ar":"en"));
 document.getElementById("gghg-sidebar-lang").addEventListener("click",()=>setLanguage(currentLang==="en"?"ar":"en"));
-setLanguage("ar");
+setLanguage("en");
 
 // ==================== Modals ====================
 const bookingModal = document.getElementById('bookingModal');
