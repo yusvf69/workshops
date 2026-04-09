@@ -21,9 +21,7 @@
     .workshops-list { display:grid; gap:40px; grid-template-columns:1fr; padding: 0 10px; }
     .workshop-card {
       background:#fff;
-      box-shadow:0 4px 12px rgba(0,0,0,0.1);
-      overflow:hidden;
-      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+      border:1px solid #eee;
       border-radius:20px;
       overflow:hidden;
       transition:transform 0.3s ease, box-shadow 0.3s ease;
@@ -32,7 +30,7 @@
       transform:translateY(-6px); 
       box-shadow:0 8px 24px rgba(95,56,36,0.35); 
     }
-    .workshop-card img { width:100%; height:260px; object-fit:cover; background:#fff; }
+    .card-img { width:100%; height:220px; object-fit:cover; display:block; }
     .workshop-card .card-content { padding:22px; display:grid; gap:10px; }
 
     /* عنوان الورشة */
@@ -150,7 +148,6 @@
       .workshops-list{grid-template-columns:repeat(3,1fr);} 
     }
     @media (max-width:768px) {
-      .workshop-card img { height: 200px; }
       .workshop-card .card-content { padding: 16px; }
       .workshop-card .card-title { font-size: 1.4rem; }
       .workshop-card .card-text { font-size: 1.1rem; }
@@ -159,11 +156,10 @@
     @media (max-width: 480px) {
       .workshops-list { gap: 10px; margin-top: 20px;}
       .workshop-card {
-        width: 60%; /* Make cards take almost full width on small screens */
-  margin-right: auto;
-  margin-left: auto;
+        width: 60%;
+        margin-right: auto;
+        margin-left: auto;
       }
-      .workshop-card img { height: 120px; }
       .workshop-card .card-content { padding: 10px; }
       .workshop-card .card-title { font-size: 1rem; }
       .workshop-card .card-text { font-size: 0.9rem; }
@@ -385,7 +381,7 @@
         <ul class="workshops-list">
           <li>
             <div class="workshop-card">
-              <img src="14.jpg" alt="Pottery Basics">
+              <img src="14.jpg" alt="Pottery Basics" class="card-img">
               <div class="card-content">
                 <h3 class="card-title" data-i18n="pottery_title">Pottery Basics</h3>
                 <p class="card-text">👥 10 seats</p>
@@ -399,7 +395,7 @@
           </li>
           <li>
             <div class="workshop-card">
-              <img src="6.jpg" alt="Mosaic Techniques">
+              <img src="6.jpg" alt="Mosaic Techniques" class="card-img">
               <div class="card-content">
                 <h3 class="card-title" data-i18n="mosaic_title">Mosaic Techniques</h3>
                 <p class="card-text">👥 8 seats</p>
@@ -413,7 +409,7 @@
           </li>
           <li>
             <div class="workshop-card">
-              <img src="25.jpg" alt="Mektup">
+              <img src="25.jpg" alt="Mektup" class="card-img">
               <div class="card-content">
                 <h3 class="card-title" data-i18n="mektup_title">Mektup</h3>
                 <p class="card-text">👥 12 seats</p>
@@ -427,7 +423,7 @@
           </li>
           <li>
             <div class="workshop-card">
-              <img src="42.jpg" alt="Pot Painting">
+              <img src="42.jpg" alt="Pot Painting" class="card-img">
               <div class="card-content">
                 <h3 class="card-title" data-i18n="pot_painting_title">Pot Painting</h3>
                 <p class="card-text">👥 10 seats</p>
@@ -441,7 +437,7 @@
           </li>
           <li>
             <div class="workshop-card">
-              <img src="31.jpg" alt="Mirror Painting">
+              <img src="31.jpg" alt="Mirror Painting" class="card-img">
               <div class="card-content">
                 <h3 class="card-title" data-i18n="mirror_painting_title">Mirror Painting</h3>
                 <p class="card-text">👥 10 seats</p>
@@ -455,7 +451,7 @@
           </li>
           <li>
             <div class="workshop-card">
-              <img src="9.jpg" alt="Pottery Session">
+              <img src="9.jpg" alt="Pottery Session" class="card-img">
               <div class="card-content">
                 <h3 class="card-title" data-i18n="pottery_session_title">Pottery Session</h3>
                 <p class="card-text">👥 8 seats</p>
